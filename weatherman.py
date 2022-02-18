@@ -5,9 +5,6 @@ from os.path import exists
 import colorama
 from colorama import Fore
 
-
-
-
 monthslist = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 def findYear(filename, months):
@@ -42,17 +39,17 @@ def findYear(filename, months):
         # print(datee)
         month = monthslist[int(datee[1])-1]
         day = datee[2]
-        if(len(str(record[1]))>0):
+        if(len(str(record[1]).strip())>0):
           if(int(str(record[1])) > highest):
             highest = int(str(record[1]))
             highest_str = "Highest: " + str(record[1]) + "C on " + month + " " + day
 
-        if (len(str(record[3]))>0):
+        if (len(str(record[3]).strip())>0):
           if(int(str(record[3])) < lowest):
             lowest = int(str(record[3]))
             lowest_str = "Lowest: " + str(record[3]) + "C on " + month + " " + day
 
-        if (len(str(record[7]))>0):
+        if (len(str(record[7]).strip())>0):
           if(int(str(record[7])) > humidity):
             humidity = int(str(record[7]))
             humidity_str = "Humid: " + str(record[7]) + "% on " + month + " " + day
@@ -85,7 +82,7 @@ def findAverageMonth(filename):
         header = True
         continue
 
-      if(len(str(record[1]))>0):
+      if(len(str(record[1]).strip())>0):
         if(high_count == 0):
           highest = int(str(record[1]))
           high_count += 1
@@ -94,7 +91,7 @@ def findAverageMonth(filename):
           high_count += 1
         highest_str = "Highest Average: " + str("{:.2f}".format(highest)) + "C"
 
-      if (len(str(record[3]))>0):
+      if (len(str(record[3]).strip())>0):
         if(low_count == 0):
           lowest = int(str(record[3]))
           low_count += 1
@@ -103,7 +100,7 @@ def findAverageMonth(filename):
           low_count += 1
         lowest_str = "Lowest Average: " + str("{:.2f}".format(lowest)) + "C"
 
-      if (len(str(record[8]))>0):
+      if (len(str(record[8]).strip())>0):
         humidity = int(str(record[8]))
         if(hum_count == 0):
           humidity = int(str(record[8]))
@@ -117,7 +114,6 @@ def findAverageMonth(filename):
 
 
   return highest_str + "\n" + lowest_str + "\n" + humidity_str + "\n"
-
 
 def findMonth(filename, month, year):
 
@@ -139,15 +135,15 @@ def findMonth(filename, month, year):
       lowest_str = ""
       day = (str(record[0]).split("-"))[2]
 
-      if(len(str(record[1]))>0):
+      if(len(str(record[1]).strip())>0):
         highest = int(str(record[1]))
         for i in range(highest):
            highest_str += "+"
         print(day.zfill(2) + " " + Fore.LIGHTRED_EX + highest_str + Fore.WHITE + " " + str(record[1]) + "C")
       else:
-        print(day.zfill(2) + " Highest temp+ erature record not found")
+        print(day.zfill(2) + " Highest temperature record not found")
 
-      if (len(str(record[3]))>0):
+      if (len(str(record[3]).strip())>0):
         lowest = int(str(record[3]))
         for i in range(lowest):
           lowest_str += "+"
@@ -159,8 +155,6 @@ def findMonth(filename, month, year):
    print("The File: " + filename + " does not exists")
 
   return ""
-
-
 
 def findMonthBonus(filename, month, year):
 
@@ -184,31 +178,29 @@ def findMonthBonus(filename, month, year):
       lowest = None
       day = (str(record[0]).split("-"))[2]
 
-      if(len(str(record[1]))>0):
+      if(len(str(record[1]).strip())>0):
         highest = int(str(record[1]))
         for i in range(highest):
            highest_str += "+"
 
-      if (len(str(record[3]))>0):
+      if (len(str(record[3]).strip())>0):
         lowest = int(str(record[3]))
         for i in range(lowest):
           lowest_str += "+"
 
       if highest != None and lowest != None:
         print(day.zfill(2) + " "+ Fore.BLUE + lowest_str + Fore.LIGHTRED_EX + highest_str + Fore.WHITE + " " + str(record[1]) + "C - " + str(record[3]) + "C")
+      elif highest == None and lowest == None:
+        print(day.zfill(2) + " No Record Found")
       elif highest == None:
         print(day.zfill(2), " ", Fore.BLUE, lowest_str, Fore.WHITE, " ", str(record[3]), "C")
       elif lowest == None:
         print(day.zfill(2) + " " + Fore.LIGHTRED_EX + highest_str + Fore.WHITE + " " + str(record[1]) + "C")
-      else:
-        print(day.zfill(2) + " No Record Found")
 
   else:
    print("The File: " + filename + " does not exists")
 
   return ""
-
-
 
 def main():
   n = len(sys.argv)
